@@ -1,10 +1,10 @@
-FROM centos:centos7
+FROM centos:latest
 
-MAINTAINER gaowenfei
+MAINTAINER zqh
 
 ENV SRC_DIR /usr/local
 ENV PHP_VERSION 7.1.14
-ENV SWOOLE_VERSION 2.1.3
+ENV SWOOLE_VERSION 4.0.1
 ENV PHP_DIR /usr/local/php/${PHP_VERSION}
 ENV PHP_INI_DIR /etc/php/${PHP_VERSION}/cli
 ENV INIT_FILE ${PHP_INI_DIR}/conf.d
@@ -21,6 +21,7 @@ RUN echo "include /etc/ld.so.conf.d/*.conf" > /etc/ld.so.conf \
 RUN yum -y install \
         wget \
         gcc \
+        gcc-c++ \
         make \
         autoconf \
         libxml2 \
@@ -37,6 +38,7 @@ RUN yum -y install \
         bzip2-devel \
         libedit \
         libedit-devel \
+        re2c \
     && rm -rf /var/cache/{yum,ldconfig}/* \
     && rm -rf /etc/ld.so.cache \
     && yum clean all
@@ -93,7 +95,7 @@ RUN cd ${SRC_DIR}/hiredis-${HIREDIS_VERSION} \
 ADD install/swoole-${SWOOLE_VERSION}.tar.gz ${SRC_DIR}/
 RUN cd ${SRC_DIR}/swoole-src-${SWOOLE_VERSION} \
     && phpize \
-    && ./configure --enable-async-redis --enable-openssl --enable-mysqlnd --enable-coroutine \
+    && ./configure --enable-async-redis --enable-openssl --enable-mysqlnd \
     && make clean > /dev/null \
     && make \
     && make install \

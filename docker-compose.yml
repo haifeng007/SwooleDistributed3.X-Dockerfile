@@ -1,10 +1,11 @@
-version: "2"
+version: "3"
 services:
     swoole:
         container_name: swoole
-        image: ccr.ccs.tencentyun.com/plugin/plugin-docker:0.0.1
+        image: sd:demo
         volumes:
-            - /home/work/server/html/plugin:/home/work/server/html/plugin
+            - /Users/zqh/GitHub/swoole-sd:/home/work/server/sd
         ports:
-            - "8080:80"
-        command: php /home/work/server/html/plugin/bin/start_swoole_server.php start
+            - "9092:9092"
+            - "9091:9091"
+        command: php /home/work/server/sd/bin/start_swoole_server.php start
