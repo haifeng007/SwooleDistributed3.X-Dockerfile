@@ -4,8 +4,11 @@ services:
         container_name: swoole
         image: sd:demo
         volumes:
-            - /Users/zqh/GitHub/swoole-sd:/home/work/server/sd
+            - /Users/my/GitHub/swoole-sd:/home/work/server/sd
         ports:
-            - "9092:9092"
             - "9091:9091"
-        command: php /home/work/server/sd/bin/start_swoole_server.php start
+            - "9092:9092"
+            - "9093:9093"
+        environment:
+            - SD_CONFIG_DIR=docker
+        command: php /home/work/server/sd/bin/start_swoole_server.php start --debug
